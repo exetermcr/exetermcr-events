@@ -36,28 +36,30 @@
     #body
       #page-header
         %h2 events
-
+      .alert.alert-information
+        %p
+          %a{ :href => gcal_url }Download iCalendar
+          ;
+          %a{ :href => gcal_feed_url } Subscribe to feed
       #content
         -for event in @events
           .event{ :class => (to_timezone(event.start_time) === @today ? 'today' : '') }
-            .date
-              .month=to_timezone(event.start_time).strftime '%a'
-              .day=to_timezone(event.start_time).strftime '%d'
+            .event-title
+              %span{ :class => 'date' }=to_timezone(event.start_time).strftime '%B %d'
+              %span{ :class => 'summary' }=h event.summary
             .details
-              %h3=h event.summary
+              .coordinates
+                %span{ :class => 'timerange' }=format_time_range(event.start_time, event.finish_time)
+                -if !event.location.empty?
+                  &#149;
+                  %span{ :class => 'location' }=h event.location
               -if !event.description.empty?
                 .description=markdown event.description
-              %dl
-                -if !event.location.empty?
-                  %dt Where
-                  %dd=h event.location
-                %dt When
-                %dd=format_time_range(event.start_time, event.finish_time)
-    %footer
-      .subscribe
-        %a{ :href => gcal_url }
-          Download (iCal)
-        %a{ :href => gcal_feed_url }
-          Subscribe to Feed
-      .fork
-        Powered by <a href="http://github.com/Aupajo/sinatra-gcal">Sinatra GCal</a>.
+      %footer
+        .subscribe
+          %a{ :href => gcal_url }
+            Download (iCal)
+          %a{ :href => gcal_feed_url }
+            Subscribe to Feed
+        .fork
+          Powered by <a href="http://github.com/Aupajo/sinatra-gcal">Sinatra GCal</a>.
