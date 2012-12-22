@@ -1,28 +1,58 @@
 !!! 5
 %html
   %head
-    %title=@calendar_name
-    %link{ :href => '/stylesheet.css', :rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8' }
-    %meta{ :name => 'viewport', :content => 'width=620' } 
+    %title Events - Exeter MCR
+    %link{ :rel => 'icon', :href => 'http://exetermcr.org/exeter-small-crest.gif', :type => 'image/x-icon' }
+    %link{ :href => 'http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700', :rel => 'stylesheet' }
+    %link{ :href => 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600', :rel => 'stylesheet' }
+    %link{ :href => 'http://exetermcr.org/style.css', :rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8' }
+    %meta{ :name => 'viewport', :content => 'width=device-width, initial-scale=1' }
+      
   %body
     %header
-      %h1=@calendar_name
-      %h2 The Next #{options.lookahead} Days
-    -for event in @events
-      .event{ :class => (to_timezone(event.start_time) === @today ? 'today' : '') }
-        .date
-          .month=to_timezone(event.start_time).strftime '%a'
-          .day=to_timezone(event.start_time).strftime '%d'
-        .details
-          %h3=h event.summary
-          -if !event.description.empty?
-            .description=markdown event.description
-          %dl
-            -if !event.location.empty?
-              %dt Where
-              %dd=h event.location
-            %dt When
-            %dd=format_time_range(event.start_time, event.finish_time)
+      .header
+        %h1
+          %a{ :href => '/' }
+            %img{ :height => '30px', :src => 'http://exetermcr.org/exeter-crest-small.gif' }
+          %a{ :href => '/' } exeter college mcr
+          %img{ :class => 'banner', :src => 'http://exetermcr.org/images/header.jpg', :width => '100%' }
+    %nav
+      .navbar
+        %ul
+          %li
+            %a{ :id => 'menu', :class => 'hide', :href => '#' } Menu
+          %li{ :class => 'nav' }
+            %a{ :href => '/about' } About
+          %li{ :class => 'nav' }
+            %a{ :href => '/committee' } Committee
+          %li{ :class => 'nav' }
+            %a{ :href => '/welfare' } Welfare
+          %li{ :class => 'nav' }
+            %a{ :href => '/events' } Events
+          %li{ :class => 'nav' }
+            %a{ :href => '/current-students' } Current students
+          %li{ :class => 'nav' }
+            %a{ :href => '/contact' } Contact
+    #body
+      #page-header
+        %h2 events
+
+      #content
+        -for event in @events
+          .event{ :class => (to_timezone(event.start_time) === @today ? 'today' : '') }
+            .date
+              .month=to_timezone(event.start_time).strftime '%a'
+              .day=to_timezone(event.start_time).strftime '%d'
+            .details
+              %h3=h event.summary
+              -if !event.description.empty?
+                .description=markdown event.description
+              %dl
+                -if !event.location.empty?
+                  %dt Where
+                  %dd=h event.location
+                %dt When
+                %dd=format_time_range(event.start_time, event.finish_time)
     %footer
       .subscribe
         %a{ :href => gcal_url }

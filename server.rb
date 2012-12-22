@@ -23,32 +23,32 @@ helpers do
     output << " &mdash; #{format_time(end_time)}" unless end_time.nil?
     output << ", #{to_timezone(start_time).strftime('%d %b %Y')}"
   end
-  
+
   def markdown(text)
     RDiscount.new(escape_html(text)).to_html
   end
-  
+
   def format_time(datetime)
     to_timezone(datetime).strftime('%I:%M%p')
   end
-  
+
   def to_timezone(datetime)
     options.timezone.utc_to_local(datetime.new_offset(0))
   end
-  
+
   def to_timezone_date(datetime)
     current = to_timezone(datetime)
     Date.new(current.year, current.month, current.day)
   end
-  
+
   def gcal_url
     "http://www.google.com/calendar/ical/#{options.gcal}/public/basic.ics"
   end
-  
+
   def gcal_feed_url
     "http://www.google.com/calendar/feeds/#{options.gcal}/public/basic"
   end
-  
+
   alias_method :h, :escape_html
 end
 
@@ -66,9 +66,4 @@ get '/' do
   end
   @events = occurrences.flatten.sort { |a,b| a.start_time <=> b.start_time }
   haml :events
-end
-
-get '/stylesheet.css' do
-  content_type 'text/css'
-  sass :stylesheet
 end
