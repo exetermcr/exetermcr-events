@@ -1,6 +1,6 @@
 require "rubygems"
 require "bundler/setup"
-
+require 'thin'
 require 'sinatra'
 require 'tzinfo'
 require 'net/http'
