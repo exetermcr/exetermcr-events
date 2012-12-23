@@ -45,7 +45,7 @@
           %a{ :href => gcal_url }Download iCalendar
           ;
           %a{ :href => gcal_feed_url } Subscribe to feed
-      #content-events
+      #content
         -for event in @events
           .event{ :class => (to_timezone(event.start_time) === @today ? 'today' : '') }
             .event-title
