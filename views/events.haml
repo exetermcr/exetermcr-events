@@ -6,6 +6,10 @@
     %link{ :href => 'http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700', :rel => 'stylesheet' }
     %link{ :href => 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600', :rel => 'stylesheet' }
     %link{ :href => 'http://exetermcr.org/style.css', :rel => 'stylesheet', :type => 'text/css', :media => 'screen', :charset => 'utf-8' }
+    %script{ :src => 'http://exetermcr.org/assets/jquery-1.8.3.min.js' }
+    %script{ :src => 'http://exetermcr.org/assets/toggle-menu.js' }
+    %script{ :src => 'http://exetermcr.org/assets/jquery.ba-throttle-debounce.min.js' }
+    %script{ :src => 'http://exetermcr.org/assets/analytics.js' }
     %meta{ :name => 'viewport', :content => 'width=device-width, initial-scale=1' }
       
   %body
@@ -41,7 +45,7 @@
           %a{ :href => gcal_url }Download iCalendar
           ;
           %a{ :href => gcal_feed_url } Subscribe to feed
-      #content
+      #content-events
         -for event in @events
           .event{ :class => (to_timezone(event.start_time) === @today ? 'today' : '') }
             .event-title
@@ -56,10 +60,10 @@
               -if !event.description.empty?
                 .description=markdown event.description
       %footer
-        .subscribe
-          %a{ :href => gcal_url }
-            Download (iCal)
-          %a{ :href => gcal_feed_url }
-            Subscribe to Feed
-        .fork
-          Powered by <a href="http://github.com/Aupajo/sinatra-gcal">Sinatra GCal</a>.
+        .footer
+          %ul
+            %li
+              %a{ :href => '/contact' }Contact us
+            %li
+              %a{ :href => '/cookies' }Cookies
+              
